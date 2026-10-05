@@ -1,0 +1,80 @@
+[
+  {
+    "id": 1,
+    "title": "Solo Leveling",
+    "genres": ["Action", "Fantasy"],
+    "year": 2024,
+    "score": 8.8,
+    "episodes": 12,
+    "status": "Airing",
+    "description": "A hidden hunter awakens to a mysterious system and enters a world where power is everything.",
+    "coverImage": "https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=900&q=80",
+    "videoUrl": "https://www.w3schools.com/html/mov_bbb.mp4",
+    "currentEpisode": 2
+  },
+  {
+    "id": 2,
+    "title": "Jujutsu Kaisen",
+    "genres": ["Action", "Fantasy"],
+    "year": 2023,
+    "score": 9.1,
+    "episodes": 24,
+    "status": "Airing",
+    "description": "Students and sorcerers battle cursed spirits in a brutal struggle for survival.",
+    "coverImage": "https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=900&q=80",
+    "videoUrl": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
+    "currentEpisode": 3
+  },
+  {
+    "id": 3,
+    "title": "Demon Slayer",
+    "genres": ["Fantasy", "Adventure"],
+    "year": 2022,
+    "score": 9.3,
+    "episodes": 24,
+    "status": "Completed",
+    "description": "A swordsman fights demons while protecting his family and seeking a cure for his sister.",
+    "coverImage": "https://images.unsplash.com/photo-1531259683007-016a7b628fc3?auto=format&fit=crop&w=900&q=80",
+    "videoUrl": "https://www.w3schools.com/html/movie.mp4",
+    "currentEpisode": 4
+  },
+  {
+    "id": 4,
+    "title": "Spy x Family",
+    "genres": ["Comedy", "Action"],
+    "year": 2024,
+    "score": 8.6,
+    "episodes": 25,
+    "status": "Airing",
+    "description": "A fake family of spies, assassins, and telepaths navigates the chaos of everyday life.",
+    "coverImage": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=900&q=80",
+    "videoUrl": "https://www.w3schools.com/html/mov_bbb.mp4",
+    "currentEpisode": 5
+  },
+  {
+    "id": 5,
+    "title": "Attack on Titan",
+    "genres": ["Action", "Drama"],
+    "year": 2021,
+    "score": 9.4,
+    "episodes": 87,
+    "status": "Completed",
+    "description": "Humanity lives behind walls while titans threaten their final hope for survival.",
+    "coverImage": "https://images.unsplash.com/photo-1534511902677-0b2c0a0f1d5f?auto=format&fit=crop&w=900&q=80",
+    "videoUrl": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
+    "currentEpisode": 6
+  },
+  {
+    "id": 6,
+    "title": "One Punch Man",
+    "genres": ["Action", "Comedy"],
+    "year": 2023,
+    "score": 8.7,
+    "episodes": 12,
+    "status": "Airing",
+    "description": "The strongest hero in the world is bored by constant victories and seeks a worthy challenge.",
+    "coverImage": "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=900&q=80",
+    "videoUrl": "https://www.w3schools.com/html/movie.mp4",
+    "currentEpisode": 7
+  }
+]
