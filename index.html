@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0b1020" />
     <title>KAnime | Watch Anime Anywhere</title>
     <meta
       name="description"
@@ -39,12 +40,16 @@
 
       img { max-width: 100%; display: block; }
 
+      button,
+      input {
+        font: inherit;
+      }
+
       .container {
         width: min(1180px, calc(100% - 32px));
         margin: 0 auto;
       }
 
-      /* Header & Navigation */
       header {
         position: sticky;
         top: 0;
@@ -106,13 +111,13 @@
         transition: 0.2s ease;
       }
 
+      .btn:hover { transform: translateY(-1px); }
+
       .btn-primary {
         background: linear-gradient(135deg, var(--primary), #ff8d67);
         color: white;
         box-shadow: 0 12px 28px rgba(255, 90, 125, 0.35);
       }
-
-      .btn-primary:hover { transform: translateY(-1px); }
 
       .btn-secondary {
         background: rgba(255,255,255,0.05);
@@ -120,7 +125,6 @@
         border: 1px solid rgba(255,255,255,0.08);
       }
 
-      /* Hero Section */
       .hero {
         padding: 72px 0 36px;
       }
@@ -248,7 +252,6 @@
         font-weight: 700;
       }
 
-      /* Main Content */
       main {
         padding: 18px 0 80px;
       }
@@ -373,7 +376,6 @@
         margin-top: 12px;
       }
 
-      /* AI Title Generator Section */
       .ai-section {
         margin-top: 56px;
         padding: 42px 28px;
@@ -427,15 +429,11 @@
         flex-wrap: wrap;
       }
 
-      /* Modal */
       .modal {
         display: none;
         position: fixed;
         z-index: 1000;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
+        inset: 0;
         background-color: rgba(0, 0, 0, 0.8);
         backdrop-filter: blur(4px);
       }
@@ -464,7 +462,6 @@
         color: var(--text);
       }
 
-      /* Watchlist Panel */
       .watchlist-panel {
         background: rgba(23, 31, 50, 0.6);
         border: 1px solid rgba(255,255,255,0.08);
@@ -511,7 +508,6 @@
         font-size: 0.9rem;
       }
 
-      /* Footer */
       footer {
         padding: 20px 0 40px;
         color: var(--muted);
@@ -526,7 +522,6 @@
         padding-top: 20px;
       }
 
-      /* Utilities */
       .skip-notification {
         animation: fadeInOut 2s ease-in-out;
       }
@@ -538,7 +533,13 @@
         100% { opacity: 0; }
       }
 
-      /* Responsive */
+      button:focus-visible,
+      a:focus-visible,
+      input:focus-visible {
+        outline: 2px solid #7c8cff;
+        outline-offset: 2px;
+      }
+
       @media (max-width: 940px) {
         .hero-grid { grid-template-columns: 1fr; }
         .card-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -557,7 +558,6 @@
     </style>
   </head>
   <body>
-    <!-- Header -->
     <header>
       <div class="container nav">
         <a href="#" class="brand" aria-label="KAnime home">
@@ -573,13 +573,12 @@
         </nav>
 
         <div class="nav-actions">
-          <button class="btn btn-secondary" id="randomAnimeBtn">🎲 Random</button>
-          <button class="btn btn-primary">Start Watching</button>
+          <button class="btn btn-secondary" id="randomAnimeBtn" type="button">🎲 Random</button>
+          <button class="btn btn-primary" type="button">Start Watching</button>
         </div>
       </div>
     </header>
 
-    <!-- Hero Section -->
     <section class="hero">
       <div class="container hero-grid">
         <div>
@@ -592,8 +591,8 @@
           </p>
 
           <div class="hero-actions">
-            <button class="btn btn-primary">Watch Now</button>
-            <button class="btn btn-secondary">Browse Library</button>
+            <button class="btn btn-primary" type="button">Watch Now</button>
+            <button class="btn btn-secondary" type="button">Browse Library</button>
           </div>
 
           <div class="stats">
@@ -627,85 +626,26 @@
       </div>
     </section>
 
-    <!-- Main Content -->
     <main>
       <div class="container">
-        <!-- Trending Section -->
         <div id="trending">
           <div class="section-head">
             <h2>Trending now</h2>
             <a href="#" class="link-more">View all</a>
           </div>
 
-          <div class="category-row">
-            <span class="chip active">All</span>
-            <span class="chip">Action</span>
-            <span class="chip">Fantasy</span>
-            <span class="chip">Romance</span>
-            <span class="chip">Sci-Fi</span>
-            <span class="chip">Comedy</span>
+          <div id="genres" class="category-row" aria-label="Anime genres">
+            <button class="chip active" type="button" data-genre="All" aria-pressed="true">All</button>
+            <button class="chip" type="button" data-genre="Action" aria-pressed="false">Action</button>
+            <button class="chip" type="button" data-genre="Fantasy" aria-pressed="false">Fantasy</button>
+            <button class="chip" type="button" data-genre="Romance" aria-pressed="false">Romance</button>
+            <button class="chip" type="button" data-genre="Sci-Fi" aria-pressed="false">Sci-Fi</button>
+            <button class="chip" type="button" data-genre="Comedy" aria-pressed="false">Comedy</button>
           </div>
 
-          <div class="card-grid">
-            <article class="anime-card">
-              <div class="anime-thumb" style="background-image: url('https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=900&q=80');">
-                <div class="play-badge">▶</div>
-              </div>
-              <div class="anime-info">
-                <h3>Jujutsu Kaisen</h3>
-                <div class="anime-meta">
-                  <span>24 Episodes</span>
-                  <span>Action</span>
-                </div>
-                <span class="badge">New</span>
-              </div>
-            </article>
-
-            <article class="anime-card">
-              <div class="anime-thumb" style="background-image: url('https://images.unsplash.com/photo-1526379095098-d400fd0bf935?auto=format&fit=crop&w=900&q=80');">
-                <div class="play-badge">▶</div>
-              </div>
-              <div class="anime-info">
-                <h3>Attack on Titan</h3>
-                <div class="anime-meta">
-                  <span>87 Episodes</span>
-                  <span>Drama</span>
-                </div>
-                <span class="badge">Popular</span>
-              </div>
-            </article>
-
-            <article class="anime-card">
-              <div class="anime-thumb" style="background-image: url('https://images.unsplash.com/photo-1531259683007-016a7b628fc3?auto=format&fit=crop&w=900&q=80');">
-                <div class="play-badge">▶</div>
-              </div>
-              <div class="anime-info">
-                <h3>Demon Slayer</h3>
-                <div class="anime-meta">
-                  <span>44 Episodes</span>
-                  <span>Fantasy</span>
-                </div>
-                <span class="badge">Top Rated</span>
-              </div>
-            </article>
-
-            <article class="anime-card">
-              <div class="anime-thumb" style="background-image: url('https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=900&q=80');">
-                <div class="play-badge">▶</div>
-              </div>
-              <div class="anime-info">
-                <h3>Spy x Family</h3>
-                <div class="anime-meta">
-                  <span>25 Episodes</span>
-                  <span>Comedy</span>
-                </div>
-                <span class="badge">Trending</span>
-              </div>
-            </article>
-          </div>
+          <div id="animeGrid" class="card-grid" aria-live="polite"></div>
         </div>
 
-        <!-- AI Title Generator Section -->
         <div class="ai-section">
           <h3>✨ AI Episode Title Generator</h3>
           <p style="color: var(--muted);">Generate creative episode titles powered by AI</p>
@@ -726,31 +666,27 @@
           </div>
 
           <div class="ai-actions">
-            <button id="aiTitleBtn" class="btn btn-primary">🤖 Generate Title</button>
-            <button id="aiSuggestionsBtn" class="btn btn-secondary">💡 Get Suggestions</button>
+            <button id="aiTitleBtn" class="btn btn-primary" type="button">🤖 Generate Title</button>
+            <button id="aiSuggestionsBtn" class="btn btn-secondary" type="button">💡 Get Suggestions</button>
           </div>
 
           <div style="margin-top: 20px;">
             <label style="color: var(--muted); display: block; margin-bottom: 8px;">Generated Title:</label>
-            <input id="episodeTitle" type="text" placeholder="Generated title will appear here..." style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.02); color: var(--text); font-size: 1rem;" readonly />
+            <input id="episodeTitle" type="text" placeholder="Generated title will appear here..." style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.02); color: var(--text);" />
           </div>
         </div>
 
-        <!-- Watchlist Section -->
         <div id="watchlist" class="watchlist-panel">
           <h3>📺 My Watchlist</h3>
-          <div class="watchlist-tabs">
-            <button class="tab-btn active" data-tab="watching">Watching</button>
-            <button class="tab-btn" data-tab="planToWatch">Plan to Watch</button>
-            <button class="tab-btn" data-tab="completed">Completed</button>
-            <button class="tab-btn" data-tab="dropped">Dropped</button>
+          <div class="watchlist-tabs" aria-label="Watchlist categories">
+            <button class="tab-btn active" data-tab="watching" type="button" aria-pressed="true">Watching</button>
+            <button class="tab-btn" data-tab="planToWatch" type="button" aria-pressed="false">Plan to Watch</button>
+            <button class="tab-btn" data-tab="completed" type="button" aria-pressed="false">Completed</button>
+            <button class="tab-btn" data-tab="dropped" type="button" aria-pressed="false">Dropped</button>
           </div>
-          <div id="watchlistItems" class="watchlist-items">
-            <div class="watchlist-item">No items yet</div>
-          </div>
+          <div id="watchlistItems" class="watchlist-items" aria-live="polite"></div>
         </div>
 
-        <!-- Calendar Section -->
         <div id="calendar">
           <div class="section-head">
             <h2>📅 Upcoming Episodes</h2>
@@ -760,7 +696,6 @@
           </div>
         </div>
 
-        <!-- CTA Section -->
         <div style="
           margin-top: 56px;
           padding: 42px 28px;
@@ -776,12 +711,11 @@
             <h3 style="margin: 0 0 8px;">Ready to watch something amazing?</h3>
             <p style="margin: 0; color: var(--muted);">Discover new favorites, binge iconic classics, and never miss a new episode again.</p>
           </div>
-          <button class="btn btn-primary">Create Free Account</button>
+          <button class="btn btn-primary" type="button">Create Free Account</button>
         </div>
       </div>
     </main>
 
-    <!-- Footer -->
     <footer>
       <div class="container footer-row">
         <div>© <span id="year"></span> KAnime. All rights reserved.</div>
@@ -789,18 +723,15 @@
       </div>
     </footer>
 
-    <!-- Suggestions Modal -->
-    <div id="suggestionsModal" class="modal">
+    <div id="suggestionsModal" class="modal" aria-modal="true" role="dialog" aria-labelledby="suggestionsTitle">
       <div class="modal-content">
-        <span class="close-modal">&times;</span>
-        <h2>💡 Title Suggestions</h2>
+        <span class="close-modal" aria-label="Close suggestions" role="button" tabindex="0">&times;</span>
+        <h2 id="suggestionsTitle">💡 Title Suggestions</h2>
         <div id="suggestionsContainer"></div>
       </div>
     </div>
 
-    <!-- JavaScript -->
     <script>
-      // ========== MOCK DATA ==========
       const mockAnimeList = [
         {
           id: 1,
@@ -831,10 +762,81 @@
           popularityRank: 1,
           genres: ["Action", "Supernatural"],
           studio: "MAPPA"
+        },
+        {
+          id: 3,
+          title: "Demon Slayer",
+          slug: "demon-slayer",
+          coverImage: "https://images.unsplash.com/photo-1531259683007-016a7b628fc3?auto=format&fit=crop&w=900&q=80",
+          rating: 8.9,
+          score: 4.9,
+          status: "completed",
+          year: 2021,
+          genres: ["Fantasy", "Action"],
+          studio: "ufotable"
+        },
+        {
+          id: 4,
+          title: "Spy x Family",
+          slug: "spy-x-family",
+          coverImage: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=900&q=80",
+          rating: 8.4,
+          score: 4.7,
+          status: "airing",
+          year: 2022,
+          genres: ["Comedy", "Action"],
+          studio: "Wit Studio"
+        },
+        {
+          id: 5,
+          title: "Frieren: Beyond Journey's End",
+          slug: "frieren",
+          coverImage: "https://images.unsplash.com/photo-1526379095098-d400fd0bf935?auto=format&fit=crop&w=900&q=80",
+          rating: 9.0,
+          score: 4.9,
+          status: "airing",
+          year: 2023,
+          genres: ["Fantasy", "Drama"],
+          studio: "Madhouse"
+        },
+        {
+          id: 6,
+          title: "Your Name",
+          slug: "your-name",
+          coverImage: "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=900&q=80",
+          rating: 8.8,
+          score: 4.8,
+          status: "completed",
+          year: 2016,
+          genres: ["Romance", "Drama"],
+          studio: "CoMix Wave Films"
+        },
+        {
+          id: 7,
+          title: "Chainsaw Man",
+          slug: "chainsaw-man",
+          coverImage: "https://images.unsplash.com/photo-1567604022952-31f1e0ffcfa5?auto=format&fit=crop&w=900&q=80",
+          rating: 8.6,
+          score: 4.8,
+          status: "airing",
+          year: 2022,
+          genres: ["Action", "Sci-Fi"],
+          studio: "MAPPA"
+        },
+        {
+          id: 8,
+          title: "Fullmetal Alchemist: Brotherhood",
+          slug: "fma-brotherhood",
+          coverImage: "https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=900&q=80",
+          rating: 9.1,
+          score: 4.9,
+          status: "completed",
+          year: 2009,
+          genres: ["Action", "Fantasy"],
+          studio: "Bones"
         }
       ];
 
-      // ========== WATCHLIST MANAGER ==========
       class WatchlistManager {
         constructor() {
           this.storageKey = "kanime_watchlist";
@@ -842,10 +844,12 @@
         }
 
         loadWatchlist() {
-          const saved = localStorage.getItem(this.storageKey);
-          return saved
-            ? JSON.parse(saved)
-            : { watching: [], planToWatch: [], completed: [], dropped: [] };
+          try {
+            const saved = localStorage.getItem(this.storageKey);
+            return saved ? JSON.parse(saved) : { watching: [], planToWatch: [], completed: [], dropped: [] };
+          } catch {
+            return { watching: [], planToWatch: [], completed: [], dropped: [] };
+          }
         }
 
         saveWatchlist() {
@@ -854,29 +858,27 @@
 
         addToList(animeId, status) {
           if (!this.watchlist[status]) return false;
-          Object.keys(this.watchlist).forEach(list => {
-            this.watchlist[list] = this.watchlist[list].filter(id => id !== animeId);
+
+          Object.keys(this.watchlist).forEach((list) => {
+            this.watchlist[list] = this.watchlist[list].filter((id) => id !== animeId);
           });
+
           if (!this.watchlist[status].includes(animeId)) {
             this.watchlist[status].push(animeId);
             this.saveWatchlist();
             return true;
           }
+
           return false;
         }
 
         getList(status) {
           return this.watchlist[status] || [];
         }
-
-        getAllWatchlist() {
-          return this.watchlist;
-        }
       }
 
       const watchlist = new WatchlistManager();
 
-      // ========== AI TITLE GENERATOR ==========
       class AITitleGenerator {
         constructor() {
           this.cacheKey = "kanime_generated_titles";
@@ -890,7 +892,7 @@
               "The Turning Point"
             ],
             humorous: [
-              "That's Ridiculous!",
+              "That’s Ridiculous!",
               "Wait, What?!",
               "Plot Twist!",
               "Who Knew?",
@@ -907,17 +909,27 @@
         }
 
         loadCache() {
-          const saved = localStorage.getItem(this.cacheKey);
-          return saved ? JSON.parse(saved) : {};
+          try {
+            const saved = localStorage.getItem(this.cacheKey);
+            return saved ? JSON.parse(saved) : {};
+          } catch {
+            return {};
+          }
         }
 
         async generateTitle(animeTitle, episodeNumber) {
-          const cacheKey = `${animeTitle}_ep${episodeNumber}`;
+          const safeTitle = (animeTitle || "Anime").trim() || "Anime";
+          const safeEpisodeNumber = Number(episodeNumber) || 1;
+          const cacheKey = `${safeTitle}_ep${safeEpisodeNumber}`;
+
           if (this.cache[cacheKey]) return this.cache[cacheKey];
 
-          // Use random template
-          const templates = this.templates.dramatic;
-          const title = `${templates[Math.floor(Math.random() * templates.length)]} - Episode ${episodeNumber}`;
+          const allTemplates = [
+            ...this.templates.dramatic,
+            ...this.templates.humorous,
+            ...this.templates.epic
+          ];
+          const title = `${allTemplates[Math.floor(Math.random() * allTemplates.length)]} - Episode ${safeEpisodeNumber}`;
 
           this.cache[cacheKey] = title;
           localStorage.setItem(this.cacheKey, JSON.stringify(this.cache));
@@ -925,21 +937,134 @@
         }
 
         async generateSuggestions(animeTitle, episodeNumber, count = 5) {
+          const unique = new Set();
           const suggestions = [];
-          for (let i = 0; i < count; i++) {
+
+          while (suggestions.length < count) {
             const title = await this.generateTitle(animeTitle, episodeNumber);
-            if (!suggestions.includes(title)) suggestions.push(title);
+            if (!unique.has(title)) {
+              unique.add(title);
+              suggestions.push(title);
+            }
           }
-          return suggestions.slice(0, count);
+
+          return suggestions;
         }
       }
 
       const aiGenerator = new AITitleGenerator();
 
-      // ========== EVENT LISTENERS ==========
+      function renderTrending(selectedGenre = "All") {
+        const container = document.getElementById("animeGrid");
+        const filtered = selectedGenre === "All"
+          ? mockAnimeList
+          : mockAnimeList.filter((anime) => anime.genres.includes(selectedGenre));
+
+        container.innerHTML = filtered.map((anime) => `
+          <article class="anime-card" data-id="${anime.id}">
+            <div class="anime-thumb" style="background-image: url('${anime.coverImage}');">
+              <div class="play-badge" aria-label="Play ${anime.title}">▶</div>
+            </div>
+            <div class="anime-info">
+              <h3>${anime.title}</h3>
+              <div class="anime-meta">
+                <span>${anime.currentEpisode ? `${anime.currentEpisode} Episodes` : `${anime.year}`}</span>
+                <span>${anime.genres[0] || "Anime"}</span>
+              </div>
+              <span class="badge">${anime.score >= 4.8 ? "Top Rated" : "New"}</span>
+            </div>
+          </article>
+        `).join("");
+      }
+
+      function renderWatchlist(tab = "watching") {
+        const container = document.getElementById("watchlistItems");
+        const ids = watchlist.getList(tab);
+        const items = ids
+          .map((id) => mockAnimeList.find((anime) => anime.id === id))
+          .filter(Boolean);
+
+        if (!items.length) {
+          container.innerHTML = '<div class="watchlist-item">No items yet</div>';
+          return;
+        }
+
+        container.innerHTML = items.map((anime) => `
+          <div class="watchlist-item">
+            <strong>${anime.title}</strong>
+            <div style="color: var(--muted); margin-top: 6px;">${anime.genres[0]}</div>
+          </div>
+        `).join("");
+      }
+
+      function showToast(message) {
+        const toast = document.createElement("div");
+        toast.textContent = message;
+        toast.style.position = "fixed";
+        toast.style.bottom = "24px";
+        toast.style.right = "24px";
+        toast.style.background = "rgba(17, 24, 39, 0.95)";
+        toast.style.color = "#fff";
+        toast.style.padding = "12px 18px";
+        toast.style.borderRadius = "999px";
+        toast.style.border = "1px solid rgba(255,255,255,0.08)";
+        toast.style.boxShadow = "0 12px 28px rgba(0,0,0,0.25)";
+        toast.style.zIndex = "1200";
+        toast.className = "skip-notification";
+        document.body.appendChild(toast);
+
+        setTimeout(() => toast.remove(), 2200);
+      }
+
+      function renderUpcomingEpisodes() {
+        const container = document.getElementById("calendarContainer");
+        const upcoming = mockAnimeList.slice(0, 3).map((anime) => ({
+          title: anime.title,
+          episode: anime.currentEpisode || 1,
+          time: anime.nextAirDate || "Tonight"
+        }));
+
+        container.innerHTML = upcoming.map((entry) => `
+          <div style="padding: 20px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px;">
+            <div style="color: var(--gold); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em;">Upcoming</div>
+            <h3 style="margin: 12px 0 8px;">${entry.title}</h3>
+            <div style="color: var(--muted);">Episode ${entry.episode}</div>
+            <div style="margin-top: 10px; font-weight: 600;">${entry.time}</div>
+          </div>
+        `).join("");
+      }
+
       document.getElementById("year").textContent = new Date().getFullYear();
 
-      // AI Title Button
+      document.querySelectorAll(".chip").forEach((chip) => {
+        chip.addEventListener("click", () => {
+          const selected = chip.dataset.genre;
+          document.querySelectorAll(".chip").forEach((item) => {
+            const active = item === chip;
+            item.classList.toggle("active", active);
+            item.setAttribute("aria-pressed", String(active));
+          });
+          renderTrending(selected);
+        });
+      });
+
+      document.querySelectorAll(".tab-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const tab = btn.dataset.tab;
+          document.querySelectorAll(".tab-btn").forEach((b) => {
+            const active = b === btn;
+            b.classList.toggle("active", active);
+            b.setAttribute("aria-pressed", String(active));
+          });
+          renderWatchlist(tab);
+        });
+      });
+
+      document.getElementById("randomAnimeBtn").addEventListener("click", () => {
+        const random = mockAnimeList[Math.floor(Math.random() * mockAnimeList.length)];
+        showToast(`Random Pick: ${random.title} (Rating: ${random.rating}/10)`);
+      });
+
       document.getElementById("aiTitleBtn").addEventListener("click", async () => {
         const animeTitle = document.getElementById("animeTitle").value || "Anime";
         const epNum = document.getElementById("episodeNumber").value || "1";
@@ -950,7 +1075,6 @@
         titleInput.value = title;
       });
 
-      // AI Suggestions Button
       document.getElementById("aiSuggestionsBtn").addEventListener("click", async () => {
         const animeTitle = document.getElementById("animeTitle").value || "Anime";
         const epNum = document.getElementById("episodeNumber").value || "1";
@@ -961,37 +1085,32 @@
         modal.style.display = "block";
 
         const suggestions = await aiGenerator.generateSuggestions(animeTitle, epNum, 5);
-        container.innerHTML = "<ul style='list-style: none; padding: 0;'>" +
+        container.innerHTML = "<ul style='list-style: none; padding: 0; margin: 0;'>" +
           suggestions.map((s, i) => `<li style='padding: 12px; margin: 8px 0; background: rgba(124,140,255,0.1); border-radius: 8px;'>${i + 1}. ${s}</li>`).join("") +
           "</ul>";
       });
 
-      // Close Modal
       document.querySelector(".close-modal").addEventListener("click", () => {
         document.getElementById("suggestionsModal").style.display = "none";
       });
 
-      // Watchlist Tabs
-      document.querySelectorAll(".tab-btn").forEach(btn => {
-        btn.addEventListener("click", () => {
-          document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
-          btn.classList.add("active");
-        });
+      document.querySelector(".close-modal").addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          document.getElementById("suggestionsModal").style.display = "none";
+        }
       });
 
-      // Random Anime Button
-      document.getElementById("randomAnimeBtn").addEventListener("click", () => {
-        const random = mockAnimeList[Math.floor(Math.random() * mockAnimeList.length)];
-        alert(`Random Pick: ${random.title} (Rating: ${random.rating}/10)`);
+      window.addEventListener("click", (event) => {
+        const modal = document.getElementById("suggestionsModal");
+        if (event.target === modal) {
+          modal.style.display = "none";
+        }
       });
 
-      // Category chips
-      document.querySelectorAll(".chip").forEach(chip => {
-        chip.addEventListener("click", () => {
-          document.querySelectorAll(".chip").forEach(c => c.classList.remove("active"));
-          chip.classList.add("active");
-        });
-      });
+      renderTrending();
+      renderWatchlist();
+      renderUpcomingEpisodes();
     </script>
   </body>
 </html>
