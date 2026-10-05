@@ -6,7 +6,7 @@
     <title>KAnime | Watch Anime Anywhere</title>
     <meta
       name="description"
-      content="KAnime is your go-to platform for streaming anime, manga news, and trending series."
+      content="KAnime is your go-to platform for streaming anime, manga news, and trending series with advanced features like watchlists, auto-skip, and watch parties."
     />
     <style>
       :root {
@@ -37,16 +37,14 @@
 
       a { color: inherit; text-decoration: none; }
 
-      img {
-        max-width: 100%;
-        display: block;
-      }
+      img { max-width: 100%; display: block; }
 
       .container {
         width: min(1180px, calc(100% - 32px));
         margin: 0 auto;
       }
 
+      /* Header & Navigation */
       header {
         position: sticky;
         top: 0;
@@ -122,6 +120,7 @@
         border: 1px solid rgba(255,255,255,0.08);
       }
 
+      /* Hero Section */
       .hero {
         padding: 72px 0 36px;
       }
@@ -249,6 +248,7 @@
         font-weight: 700;
       }
 
+      /* Main Content */
       main {
         padding: 18px 0 80px;
       }
@@ -284,6 +284,13 @@
         border: 1px solid rgba(255,255,255,0.08);
         border-radius: 999px;
         padding: 10px 16px;
+        cursor: pointer;
+        transition: 0.2s ease;
+      }
+
+      .chip:hover {
+        background: rgba(255,255,255,0.06);
+        border-color: rgba(255,255,255,0.14);
       }
 
       .chip.active {
@@ -304,6 +311,7 @@
         border-radius: 20px;
         overflow: hidden;
         transition: transform 0.2s ease, border-color 0.2s ease;
+        cursor: pointer;
       }
 
       .anime-card:hover {
@@ -329,6 +337,13 @@
         background: rgba(255,255,255,0.12);
         backdrop-filter: blur(8px);
         border: 1px solid rgba(255,255,255,0.2);
+        cursor: pointer;
+        transition: 0.2s ease;
+      }
+
+      .play-badge:hover {
+        background: rgba(255,255,255,0.2);
+        transform: scale(1.1);
       }
 
       .anime-info {
@@ -358,7 +373,8 @@
         margin-top: 12px;
       }
 
-      .cta {
+      /* AI Title Generator Section */
+      .ai-section {
         margin-top: 56px;
         padding: 42px 28px;
         border-radius: 28px;
@@ -366,22 +382,136 @@
           linear-gradient(135deg, rgba(124,140,255,0.16), rgba(255,90,125,0.16)),
           rgba(19, 27, 44, 0.9);
         border: 1px solid rgba(255,255,255,0.08);
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 20px;
       }
 
-      .cta h3 {
-        margin: 0 0 8px;
+      .ai-section h3 {
+        margin-top: 0;
         font-size: clamp(1.7rem, 3vw, 2.3rem);
       }
 
-      .cta p {
-        margin: 0;
+      .ai-inputs {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+        margin: 20px 0;
+      }
+
+      .input-group {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .input-group label {
+        color: var(--muted);
+        font-size: 0.9rem;
+        margin-bottom: 8px;
+      }
+
+      .input-group input {
+        padding: 12px;
+        border-radius: 8px;
+        border: 1px solid rgba(255,255,255,0.1);
+        background: rgba(255,255,255,0.02);
+        color: var(--text);
+        font-size: 1rem;
+      }
+
+      .input-group input::placeholder {
         color: var(--muted);
       }
 
+      .ai-actions {
+        display: flex;
+        gap: 12px;
+        margin-top: 20px;
+        flex-wrap: wrap;
+      }
+
+      /* Modal */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(4px);
+      }
+
+      .modal-content {
+        background-color: var(--panel);
+        margin: 10% auto;
+        padding: 30px;
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 20px;
+        width: 90%;
+        max-width: 600px;
+        max-height: 80vh;
+        overflow-y: auto;
+      }
+
+      .close-modal {
+        color: var(--muted);
+        float: right;
+        font-size: 2rem;
+        font-weight: bold;
+        cursor: pointer;
+      }
+
+      .close-modal:hover {
+        color: var(--text);
+      }
+
+      /* Watchlist Panel */
+      .watchlist-panel {
+        background: rgba(23, 31, 50, 0.6);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 12px;
+        padding: 20px;
+        margin: 20px 0;
+      }
+
+      .watchlist-tabs {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+        margin-bottom: 20px;
+      }
+
+      .watchlist-tabs button {
+        padding: 12px;
+        border: 1px solid rgba(255,255,255,0.1);
+        background: rgba(255,255,255,0.02);
+        color: var(--muted);
+        border-radius: 8px;
+        cursor: pointer;
+        transition: 0.2s ease;
+      }
+
+      .watchlist-tabs button.active {
+        background: var(--primary);
+        color: white;
+        border-color: var(--primary);
+      }
+
+      .watchlist-items {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 12px;
+      }
+
+      .watchlist-item {
+        padding: 12px;
+        background: rgba(255,255,255,0.02);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 8px;
+        text-align: center;
+        font-size: 0.9rem;
+      }
+
+      /* Footer */
       footer {
         padding: 20px 0 40px;
         color: var(--muted);
@@ -396,19 +526,24 @@
         padding-top: 20px;
       }
 
+      /* Utilities */
+      .skip-notification {
+        animation: fadeInOut 2s ease-in-out;
+      }
+
+      @keyframes fadeInOut {
+        0% { opacity: 0; }
+        10% { opacity: 1; }
+        90% { opacity: 1; }
+        100% { opacity: 0; }
+      }
+
+      /* Responsive */
       @media (max-width: 940px) {
-        .hero-grid {
-          grid-template-columns: 1fr;
-        }
-
-        .card-grid {
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
-
-        .cta {
-          flex-direction: column;
-          align-items: flex-start;
-        }
+        .hero-grid { grid-template-columns: 1fr; }
+        .card-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .ai-inputs { grid-template-columns: 1fr; }
+        .watchlist-tabs { grid-template-columns: repeat(2, 1fr); }
       }
 
       @media (max-width: 620px) {
@@ -422,6 +557,7 @@
     </style>
   </head>
   <body>
+    <!-- Header -->
     <header>
       <div class="container nav">
         <a href="#" class="brand" aria-label="KAnime home">
@@ -430,20 +566,20 @@
         </a>
 
         <nav class="nav-links" aria-label="Main navigation">
-          <a href="#">Home</a>
-          <a href="#">Trending</a>
-          <a href="#">Genres</a>
-          <a href="#">New Episodes</a>
-          <a href="#">Manga</a>
+          <a href="#trending">Trending</a>
+          <a href="#genres">Genres</a>
+          <a href="#watchlist">My List</a>
+          <a href="#calendar">Calendar</a>
         </nav>
 
         <div class="nav-actions">
-          <button class="btn btn-secondary">Log in</button>
+          <button class="btn btn-secondary" id="randomAnimeBtn">🎲 Random</button>
           <button class="btn btn-primary">Start Watching</button>
         </div>
       </div>
     </header>
 
+    <!-- Hero Section -->
     <section class="hero">
       <div class="container hero-grid">
         <div>
@@ -491,90 +627,161 @@
       </div>
     </section>
 
+    <!-- Main Content -->
     <main>
       <div class="container">
-        <div class="section-head">
-          <h2>Trending now</h2>
-          <a href="#" class="link-more">View all</a>
+        <!-- Trending Section -->
+        <div id="trending">
+          <div class="section-head">
+            <h2>Trending now</h2>
+            <a href="#" class="link-more">View all</a>
+          </div>
+
+          <div class="category-row">
+            <span class="chip active">All</span>
+            <span class="chip">Action</span>
+            <span class="chip">Fantasy</span>
+            <span class="chip">Romance</span>
+            <span class="chip">Sci-Fi</span>
+            <span class="chip">Comedy</span>
+          </div>
+
+          <div class="card-grid">
+            <article class="anime-card">
+              <div class="anime-thumb" style="background-image: url('https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=900&q=80');">
+                <div class="play-badge">▶</div>
+              </div>
+              <div class="anime-info">
+                <h3>Jujutsu Kaisen</h3>
+                <div class="anime-meta">
+                  <span>24 Episodes</span>
+                  <span>Action</span>
+                </div>
+                <span class="badge">New</span>
+              </div>
+            </article>
+
+            <article class="anime-card">
+              <div class="anime-thumb" style="background-image: url('https://images.unsplash.com/photo-1526379095098-d400fd0bf935?auto=format&fit=crop&w=900&q=80');">
+                <div class="play-badge">▶</div>
+              </div>
+              <div class="anime-info">
+                <h3>Attack on Titan</h3>
+                <div class="anime-meta">
+                  <span>87 Episodes</span>
+                  <span>Drama</span>
+                </div>
+                <span class="badge">Popular</span>
+              </div>
+            </article>
+
+            <article class="anime-card">
+              <div class="anime-thumb" style="background-image: url('https://images.unsplash.com/photo-1531259683007-016a7b628fc3?auto=format&fit=crop&w=900&q=80');">
+                <div class="play-badge">▶</div>
+              </div>
+              <div class="anime-info">
+                <h3>Demon Slayer</h3>
+                <div class="anime-meta">
+                  <span>44 Episodes</span>
+                  <span>Fantasy</span>
+                </div>
+                <span class="badge">Top Rated</span>
+              </div>
+            </article>
+
+            <article class="anime-card">
+              <div class="anime-thumb" style="background-image: url('https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=900&q=80');">
+                <div class="play-badge">▶</div>
+              </div>
+              <div class="anime-info">
+                <h3>Spy x Family</h3>
+                <div class="anime-meta">
+                  <span>25 Episodes</span>
+                  <span>Comedy</span>
+                </div>
+                <span class="badge">Trending</span>
+              </div>
+            </article>
+          </div>
         </div>
 
-        <div class="category-row">
-          <span class="chip active">All</span>
-          <span class="chip">Action</span>
-          <span class="chip">Fantasy</span>
-          <span class="chip">Romance</span>
-          <span class="chip">Sci-Fi</span>
-          <span class="chip">Comedy</span>
+        <!-- AI Title Generator Section -->
+        <div class="ai-section">
+          <h3>✨ AI Episode Title Generator</h3>
+          <p style="color: var(--muted);">Generate creative episode titles powered by AI</p>
+
+          <div class="ai-inputs">
+            <div class="input-group">
+              <label for="animeTitle">Anime Title</label>
+              <input id="animeTitle" type="text" placeholder="e.g., Solo Leveling" />
+            </div>
+            <div class="input-group">
+              <label for="episodeNumber">Episode Number</label>
+              <input id="episodeNumber" type="number" value="1" min="1" />
+            </div>
+            <div class="input-group">
+              <label for="episodeSynopsis">Synopsis (Optional)</label>
+              <input id="episodeSynopsis" type="text" placeholder="Brief summary..." />
+            </div>
+          </div>
+
+          <div class="ai-actions">
+            <button id="aiTitleBtn" class="btn btn-primary">🤖 Generate Title</button>
+            <button id="aiSuggestionsBtn" class="btn btn-secondary">💡 Get Suggestions</button>
+          </div>
+
+          <div style="margin-top: 20px;">
+            <label style="color: var(--muted); display: block; margin-bottom: 8px;">Generated Title:</label>
+            <input id="episodeTitle" type="text" placeholder="Generated title will appear here..." style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.02); color: var(--text); font-size: 1rem;" readonly />
+          </div>
         </div>
 
-        <div class="card-grid">
-          <article class="anime-card">
-            <div class="anime-thumb" style="background-image: url('https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=900&q=80');">
-              <div class="play-badge">▶</div>
-            </div>
-            <div class="anime-info">
-              <h3>Jujutsu Kaisen</h3>
-              <div class="anime-meta">
-                <span>24 Episodes</span>
-                <span>Action</span>
-              </div>
-              <span class="badge">New</span>
-            </div>
-          </article>
-
-          <article class="anime-card">
-            <div class="anime-thumb" style="background-image: url('https://images.unsplash.com/photo-1526379095098-d400fd0bf935?auto=format&fit=crop&w=900&q=80');">
-              <div class="play-badge">▶</div>
-            </div>
-            <div class="anime-info">
-              <h3>Attack on Titan</h3>
-              <div class="anime-meta">
-                <span>87 Episodes</span>
-                <span>Drama</span>
-              </div>
-              <span class="badge">Popular</span>
-            </div>
-          </article>
-
-          <article class="anime-card">
-            <div class="anime-thumb" style="background-image: url('https://images.unsplash.com/photo-1531259683007-016a7b628fc3?auto=format&fit=crop&w=900&q=80');">
-              <div class="play-badge">▶</div>
-            </div>
-            <div class="anime-info">
-              <h3>Demon Slayer</h3>
-              <div class="anime-meta">
-                <span>44 Episodes</span>
-                <span>Fantasy</span>
-              </div>
-              <span class="badge">Top Rated</span>
-            </div>
-          </article>
-
-          <article class="anime-card">
-            <div class="anime-thumb" style="background-image: url('https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=900&q=80');">
-              <div class="play-badge">▶</div>
-            </div>
-            <div class="anime-info">
-              <h3>Spy x Family</h3>
-              <div class="anime-meta">
-                <span>25 Episodes</span>
-                <span>Comedy</span>
-              </div>
-              <span class="badge">Trending</span>
-            </div>
-          </article>
+        <!-- Watchlist Section -->
+        <div id="watchlist" class="watchlist-panel">
+          <h3>📺 My Watchlist</h3>
+          <div class="watchlist-tabs">
+            <button class="tab-btn active" data-tab="watching">Watching</button>
+            <button class="tab-btn" data-tab="planToWatch">Plan to Watch</button>
+            <button class="tab-btn" data-tab="completed">Completed</button>
+            <button class="tab-btn" data-tab="dropped">Dropped</button>
+          </div>
+          <div id="watchlistItems" class="watchlist-items">
+            <div class="watchlist-item">No items yet</div>
+          </div>
         </div>
 
-        <div class="cta">
+        <!-- Calendar Section -->
+        <div id="calendar">
+          <div class="section-head">
+            <h2>📅 Upcoming Episodes</h2>
+          </div>
+          <div id="calendarContainer" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+            <p style="color: var(--muted);">Loading upcoming episodes...</p>
+          </div>
+        </div>
+
+        <!-- CTA Section -->
+        <div style="
+          margin-top: 56px;
+          padding: 42px 28px;
+          border-radius: 28px;
+          background: linear-gradient(135deg, rgba(124,140,255,0.16), rgba(255,90,125,0.16)), rgba(19, 27, 44, 0.9);
+          border: 1px solid rgba(255,255,255,0.08);
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 20px;
+        ">
           <div>
-            <h3>Ready to watch something amazing?</h3>
-            <p>Discover new favorites, binge iconic classics, and never miss a new episode again.</p>
+            <h3 style="margin: 0 0 8px;">Ready to watch something amazing?</h3>
+            <p style="margin: 0; color: var(--muted);">Discover new favorites, binge iconic classics, and never miss a new episode again.</p>
           </div>
           <button class="btn btn-primary">Create Free Account</button>
         </div>
       </div>
     </main>
 
+    <!-- Footer -->
     <footer>
       <div class="container footer-row">
         <div>© <span id="year"></span> KAnime. All rights reserved.</div>
@@ -582,8 +789,209 @@
       </div>
     </footer>
 
+    <!-- Suggestions Modal -->
+    <div id="suggestionsModal" class="modal">
+      <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h2>💡 Title Suggestions</h2>
+        <div id="suggestionsContainer"></div>
+      </div>
+    </div>
+
+    <!-- JavaScript -->
     <script>
+      // ========== MOCK DATA ==========
+      const mockAnimeList = [
+        {
+          id: 1,
+          title: "Solo Leveling",
+          slug: "solo-leveling",
+          coverImage: "https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=900&q=80",
+          rating: 8.5,
+          score: 4.9,
+          status: "airing",
+          year: 2024,
+          trendingRank: 1,
+          popularityRank: 2,
+          genres: ["Action", "Fantasy"],
+          studio: "A-1 Pictures",
+          currentEpisode: 2,
+          nextAirDate: "2024-01-21T22:00:00"
+        },
+        {
+          id: 2,
+          title: "Jujutsu Kaisen",
+          slug: "jujutsu-kaisen",
+          coverImage: "https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=900&q=80",
+          rating: 8.7,
+          score: 4.8,
+          status: "completed",
+          year: 2020,
+          trendingRank: 2,
+          popularityRank: 1,
+          genres: ["Action", "Supernatural"],
+          studio: "MAPPA"
+        }
+      ];
+
+      // ========== WATCHLIST MANAGER ==========
+      class WatchlistManager {
+        constructor() {
+          this.storageKey = "kanime_watchlist";
+          this.watchlist = this.loadWatchlist();
+        }
+
+        loadWatchlist() {
+          const saved = localStorage.getItem(this.storageKey);
+          return saved
+            ? JSON.parse(saved)
+            : { watching: [], planToWatch: [], completed: [], dropped: [] };
+        }
+
+        saveWatchlist() {
+          localStorage.setItem(this.storageKey, JSON.stringify(this.watchlist));
+        }
+
+        addToList(animeId, status) {
+          if (!this.watchlist[status]) return false;
+          Object.keys(this.watchlist).forEach(list => {
+            this.watchlist[list] = this.watchlist[list].filter(id => id !== animeId);
+          });
+          if (!this.watchlist[status].includes(animeId)) {
+            this.watchlist[status].push(animeId);
+            this.saveWatchlist();
+            return true;
+          }
+          return false;
+        }
+
+        getList(status) {
+          return this.watchlist[status] || [];
+        }
+
+        getAllWatchlist() {
+          return this.watchlist;
+        }
+      }
+
+      const watchlist = new WatchlistManager();
+
+      // ========== AI TITLE GENERATOR ==========
+      class AITitleGenerator {
+        constructor() {
+          this.cacheKey = "kanime_generated_titles";
+          this.cache = this.loadCache();
+          this.templates = {
+            dramatic: [
+              "The Truth Revealed",
+              "Broken Bonds",
+              "Final Stand",
+              "Destiny Awaits",
+              "The Turning Point"
+            ],
+            humorous: [
+              "That's Ridiculous!",
+              "Wait, What?!",
+              "Plot Twist!",
+              "Who Knew?",
+              "Classic Blunder"
+            ],
+            epic: [
+              "The Ultimate Battle",
+              "Legends Rise",
+              "Power Unleashed",
+              "The Final Clash",
+              "Crown of Victory"
+            ]
+          };
+        }
+
+        loadCache() {
+          const saved = localStorage.getItem(this.cacheKey);
+          return saved ? JSON.parse(saved) : {};
+        }
+
+        async generateTitle(animeTitle, episodeNumber) {
+          const cacheKey = `${animeTitle}_ep${episodeNumber}`;
+          if (this.cache[cacheKey]) return this.cache[cacheKey];
+
+          // Use random template
+          const templates = this.templates.dramatic;
+          const title = `${templates[Math.floor(Math.random() * templates.length)]} - Episode ${episodeNumber}`;
+
+          this.cache[cacheKey] = title;
+          localStorage.setItem(this.cacheKey, JSON.stringify(this.cache));
+          return title;
+        }
+
+        async generateSuggestions(animeTitle, episodeNumber, count = 5) {
+          const suggestions = [];
+          for (let i = 0; i < count; i++) {
+            const title = await this.generateTitle(animeTitle, episodeNumber);
+            if (!suggestions.includes(title)) suggestions.push(title);
+          }
+          return suggestions.slice(0, count);
+        }
+      }
+
+      const aiGenerator = new AITitleGenerator();
+
+      // ========== EVENT LISTENERS ==========
       document.getElementById("year").textContent = new Date().getFullYear();
+
+      // AI Title Button
+      document.getElementById("aiTitleBtn").addEventListener("click", async () => {
+        const animeTitle = document.getElementById("animeTitle").value || "Anime";
+        const epNum = document.getElementById("episodeNumber").value || "1";
+        const titleInput = document.getElementById("episodeTitle");
+
+        titleInput.value = "Generating title...";
+        const title = await aiGenerator.generateTitle(animeTitle, epNum);
+        titleInput.value = title;
+      });
+
+      // AI Suggestions Button
+      document.getElementById("aiSuggestionsBtn").addEventListener("click", async () => {
+        const animeTitle = document.getElementById("animeTitle").value || "Anime";
+        const epNum = document.getElementById("episodeNumber").value || "1";
+        const modal = document.getElementById("suggestionsModal");
+        const container = document.getElementById("suggestionsContainer");
+
+        container.innerHTML = "<p>Loading suggestions...</p>";
+        modal.style.display = "block";
+
+        const suggestions = await aiGenerator.generateSuggestions(animeTitle, epNum, 5);
+        container.innerHTML = "<ul style='list-style: none; padding: 0;'>" +
+          suggestions.map((s, i) => `<li style='padding: 12px; margin: 8px 0; background: rgba(124,140,255,0.1); border-radius: 8px;'>${i + 1}. ${s}</li>`).join("") +
+          "</ul>";
+      });
+
+      // Close Modal
+      document.querySelector(".close-modal").addEventListener("click", () => {
+        document.getElementById("suggestionsModal").style.display = "none";
+      });
+
+      // Watchlist Tabs
+      document.querySelectorAll(".tab-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+          btn.classList.add("active");
+        });
+      });
+
+      // Random Anime Button
+      document.getElementById("randomAnimeBtn").addEventListener("click", () => {
+        const random = mockAnimeList[Math.floor(Math.random() * mockAnimeList.length)];
+        alert(`Random Pick: ${random.title} (Rating: ${random.rating}/10)`);
+      });
+
+      // Category chips
+      document.querySelectorAll(".chip").forEach(chip => {
+        chip.addEventListener("click", () => {
+          document.querySelectorAll(".chip").forEach(c => c.classList.remove("active"));
+          chip.classList.add("active");
+        });
+      });
     </script>
   </body>
 </html>
