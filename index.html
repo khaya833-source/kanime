@@ -775,7 +775,16 @@
 
     <script>
       const API_BASE = 'http://localhost:4000';
-      const demoVideoUrl = 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4';
+      const demoVideoUrl = 'https://www.w3schools.com/html/mov_bbb.mp4';
+
+      const animeVideoLibrary = {
+        'Solo Leveling': 'https://www.w3schools.com/html/mov_bbb.mp4',
+        'Jujutsu Kaisen': 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4',
+        'Demon Slayer': 'https://www.w3schools.com/html/movie.mp4',
+        'Spy x Family': 'https://www.w3schools.com/html/mov_bbb.mp4',
+        'Attack on Titan': 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4',
+        'One Punch Man': 'https://www.w3schools.com/html/movie.mp4'
+      };
 
       const state = {
         anime: [],
@@ -797,7 +806,7 @@
           description: item.synopsis || item.description || 'A thrilling anime experience.',
           episodes: item.episodes || 12,
           status: item.status || 'Airing',
-          videoUrl: item.videoUrl || demoVideoUrl,
+          videoUrl: item.videoUrl || animeVideoLibrary[item.title] || demoVideoUrl,
           currentEpisode: Math.max(1, item.episodes ? Math.min(12, Math.round(item.episodes * 0.2)) : 1)
         };
       }
@@ -813,10 +822,10 @@
         } catch (error) {
           console.error('Could not load anime from backend, using fallback data.', error);
           state.anime = [
-            { id: 1, title: 'Solo Leveling', coverImage: 'https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=900&q=80', rating: 8.5, score: 4.9, genres: ['Action', 'Fantasy'], year: 2024, description: 'A hunter enters a dangerous new world and learns the cost of power.', episodes: 12, status: 'Airing', videoUrl: demoVideoUrl, currentEpisode: 2 },
-            { id: 2, title: 'Jujutsu Kaisen', coverImage: 'https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=900&q=80', rating: 8.7, score: 4.8, genres: ['Action', 'Supernatural'], year: 2020, description: 'Cursed energy and impossible battles reshape a fragile world.', episodes: 24, status: 'Completed', videoUrl: demoVideoUrl, currentEpisode: 24 },
-            { id: 3, title: 'Demon Slayer', coverImage: 'https://images.unsplash.com/photo-1531259683007-016a7b628fc3?auto=format&fit=crop&w=900&q=80', rating: 8.9, score: 4.9, genres: ['Fantasy', 'Action'], year: 2021, description: 'A swordsman’s promise drives him through a war against demons.', episodes: 44, status: 'Completed', videoUrl: demoVideoUrl, currentEpisode: 44 },
-            { id: 4, title: 'Spy x Family', coverImage: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=900&q=80', rating: 8.4, score: 4.7, genres: ['Comedy', 'Action'], year: 2022, description: 'A spy, an assassin, and a telepath try to keep a family charade alive.', episodes: 25, status: 'Airing', videoUrl: demoVideoUrl, currentEpisode: 25 }
+            { id: 1, title: 'Solo Leveling', coverImage: 'https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=900&q=80', rating: 8.5, score: 4.9, genres: ['Action', 'Fantasy'], year: 2024, description: 'A hunter enters a dangerous new world and learns the cost of power.', episodes: 12, status: 'Airing', videoUrl: animeVideoLibrary['Solo Leveling'], currentEpisode: 2 },
+            { id: 2, title: 'Jujutsu Kaisen', coverImage: 'https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=900&q=80', rating: 8.7, score: 4.8, genres: ['Action', 'Supernatural'], year: 2020, description: 'Cursed energy and impossible battles reshape a fragile world.', episodes: 24, status: 'Completed', videoUrl: animeVideoLibrary['Jujutsu Kaisen'], currentEpisode: 24 },
+            { id: 3, title: 'Demon Slayer', coverImage: 'https://images.unsplash.com/photo-1531259683007-016a7b628fc3?auto=format&fit=crop&w=900&q=80', rating: 8.9, score: 4.9, genres: ['Fantasy', 'Action'], year: 2021, description: 'A swordsman’s promise drives him through a war against demons.', episodes: 44, status: 'Completed', videoUrl: animeVideoLibrary['Demon Slayer'], currentEpisode: 44 },
+            { id: 4, title: 'Spy x Family', coverImage: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=900&q=80', rating: 8.4, score: 4.7, genres: ['Comedy', 'Action'], year: 2022, description: 'A spy, an assassin, and a telepath try to keep a family charade alive.', episodes: 25, status: 'Airing', videoUrl: animeVideoLibrary['Spy x Family'], currentEpisode: 25 }
           ];
           renderTrending(state.genre);
           renderUpcomingEpisodes();
