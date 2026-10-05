@@ -440,13 +440,12 @@
 
       .modal-content {
         background-color: var(--panel);
-        margin: 10% auto;
+        margin: 6% auto;
         padding: 30px;
         border: 1px solid rgba(255,255,255,0.1);
         border-radius: 20px;
-        width: 90%;
-        max-width: 600px;
-        max-height: 80vh;
+        width: min(900px, 92vw);
+        max-height: 85vh;
         overflow-y: auto;
       }
 
@@ -460,6 +459,20 @@
 
       .close-modal:hover {
         color: var(--text);
+      }
+
+      .watch-player {
+        width: 100%;
+        border-radius: 16px;
+        background: #000;
+        aspect-ratio: 16 / 9;
+        border: 1px solid rgba(255,255,255,0.08);
+      }
+
+      .watch-meta {
+        margin-top: 16px;
+        color: var(--muted);
+        line-height: 1.6;
       }
 
       .watchlist-panel {
@@ -574,7 +587,7 @@
 
         <div class="nav-actions">
           <button class="btn btn-secondary" id="randomAnimeBtn" type="button">🎲 Random</button>
-          <button class="btn btn-primary" type="button">Start Watching</button>
+          <button class="btn btn-primary" id="watchNowBtn" type="button">Start Watching</button>
         </div>
       </div>
     </header>
@@ -591,7 +604,7 @@
           </p>
 
           <div class="hero-actions">
-            <button class="btn btn-primary" type="button">Watch Now</button>
+            <button class="btn btn-primary" id="watchHeroBtn" type="button">Watch Now</button>
             <button class="btn btn-secondary" type="button">Browse Library</button>
           </div>
 
@@ -711,7 +724,7 @@
             <h3 style="margin: 0 0 8px;">Ready to watch something amazing?</h3>
             <p style="margin: 0; color: var(--muted);">Discover new favorites, binge iconic classics, and never miss a new episode again.</p>
           </div>
-          <button class="btn btn-primary" type="button">Create Free Account</button>
+          <button class="btn btn-primary" id="ctaWatchBtn" type="button">Create Free Account</button>
         </div>
       </div>
     </main>
@@ -731,7 +744,21 @@
       </div>
     </div>
 
+    <div id="watchModal" class="modal" aria-modal="true" role="dialog" aria-labelledby="watchTitle">
+      <div class="modal-content">
+        <span class="close-modal" data-close-watch aria-label="Close player" role="button" tabindex="0">&times;</span>
+        <h2 id="watchTitle">Now Playing</h2>
+        <video id="watchVideo" class="watch-player" controls playsinline poster="">
+          <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        <div id="watchMeta" class="watch-meta"></div>
+      </div>
+    </div>
+
     <script>
+      const demoVideoUrl = "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4";
+
       const mockAnimeList = [
         {
           id: 1,
@@ -747,7 +774,9 @@
           genres: ["Action", "Fantasy"],
           studio: "A-1 Pictures",
           currentEpisode: 2,
-          nextAirDate: "2024-01-21T22:00:00"
+          nextAirDate: "2024-01-21T22:00:00",
+          videoUrl: demoVideoUrl,
+          description: "A hunter enters a dangerous new world and learns the cost of power."
         },
         {
           id: 2,
@@ -761,7 +790,11 @@
           trendingRank: 2,
           popularityRank: 1,
           genres: ["Action", "Supernatural"],
-          studio: "MAPPA"
+          studio: "MAPPA",
+          currentEpisode: 24,
+          nextAirDate: "2024-01-18T22:00:00",
+          videoUrl: demoVideoUrl,
+          description: "Cursed energy and impossible battles reshape a fragile world."
         },
         {
           id: 3,
@@ -773,7 +806,11 @@
           status: "completed",
           year: 2021,
           genres: ["Fantasy", "Action"],
-          studio: "ufotable"
+          studio: "ufotable",
+          currentEpisode: 44,
+          nextAirDate: "2024-01-17T22:00:00",
+          videoUrl: demoVideoUrl,
+          description: "A swordsman’s promise drives him through a war against demons."
         },
         {
           id: 4,
@@ -785,7 +822,11 @@
           status: "airing",
           year: 2022,
           genres: ["Comedy", "Action"],
-          studio: "Wit Studio"
+          studio: "Wit Studio",
+          currentEpisode: 25,
+          nextAirDate: "2024-01-15T22:00:00",
+          videoUrl: demoVideoUrl,
+          description: "A spy, an assassin, and a telepath try to keep a family charade alive."
         },
         {
           id: 5,
@@ -797,7 +838,11 @@
           status: "airing",
           year: 2023,
           genres: ["Fantasy", "Drama"],
-          studio: "Madhouse"
+          studio: "Madhouse",
+          currentEpisode: 28,
+          nextAirDate: "2024-01-13T22:00:00",
+          videoUrl: demoVideoUrl,
+          description: "A journey of memory, meaning, and the passage of time."
         },
         {
           id: 6,
@@ -809,7 +854,11 @@
           status: "completed",
           year: 2016,
           genres: ["Romance", "Drama"],
-          studio: "CoMix Wave Films"
+          studio: "CoMix Wave Films",
+          currentEpisode: 1,
+          nextAirDate: "2024-01-12T22:00:00",
+          videoUrl: demoVideoUrl,
+          description: "Two lives are mysteriously linked across time and distance."
         },
         {
           id: 7,
@@ -821,7 +870,11 @@
           status: "airing",
           year: 2022,
           genres: ["Action", "Sci-Fi"],
-          studio: "MAPPA"
+          studio: "MAPPA",
+          currentEpisode: 12,
+          nextAirDate: "2024-01-11T22:00:00",
+          videoUrl: demoVideoUrl,
+          description: "A reimagined antihero story built on chaos and survival."
         },
         {
           id: 8,
@@ -833,7 +886,11 @@
           status: "completed",
           year: 2009,
           genres: ["Action", "Fantasy"],
-          studio: "Bones"
+          studio: "Bones",
+          currentEpisode: 64,
+          nextAirDate: "2024-01-10T22:00:00",
+          videoUrl: demoVideoUrl,
+          description: "A legendary story of alchemy, sacrifice, and redemption."
         }
       ];
 
@@ -954,6 +1011,26 @@
 
       const aiGenerator = new AITitleGenerator();
 
+      function openWatchModal(anime) {
+        const modal = document.getElementById("watchModal");
+        const video = document.getElementById("watchVideo");
+        const title = document.getElementById("watchTitle");
+        const meta = document.getElementById("watchMeta");
+
+        title.textContent = `${anime.title} • Episode ${anime.currentEpisode || 1}`;
+        video.src = anime.videoUrl || demoVideoUrl;
+        video.poster = anime.coverImage;
+        meta.innerHTML = `
+          <strong>${anime.title}</strong><br>
+          ${anime.genres.join(" • ")}<br>
+          ${anime.description}
+        `;
+
+        modal.style.display = "block";
+        video.load();
+        video.play().catch(() => {});
+      }
+
       function renderTrending(selectedGenre = "All") {
         const container = document.getElementById("animeGrid");
         const filtered = selectedGenre === "All"
@@ -963,7 +1040,7 @@
         container.innerHTML = filtered.map((anime) => `
           <article class="anime-card" data-id="${anime.id}">
             <div class="anime-thumb" style="background-image: url('${anime.coverImage}');">
-              <div class="play-badge" aria-label="Play ${anime.title}">▶</div>
+              <div class="play-badge" data-watch="${anime.id}" aria-label="Play ${anime.title}">▶</div>
             </div>
             <div class="anime-info">
               <h3>${anime.title}</h3>
@@ -975,6 +1052,21 @@
             </div>
           </article>
         `).join("");
+
+        container.querySelectorAll("[data-watch]").forEach((button) => {
+          button.addEventListener("click", (event) => {
+            event.stopPropagation();
+            const anime = mockAnimeList.find((item) => item.id === Number(button.dataset.watch));
+            if (anime) openWatchModal(anime);
+          });
+        });
+
+        container.querySelectorAll(".anime-card").forEach((card) => {
+          card.addEventListener("click", () => {
+            const anime = mockAnimeList.find((item) => item.id === Number(card.dataset.id));
+            if (anime) openWatchModal(anime);
+          });
+        });
       }
 
       function renderWatchlist(tab = "watching") {
@@ -1065,6 +1157,10 @@
         showToast(`Random Pick: ${random.title} (Rating: ${random.rating}/10)`);
       });
 
+      document.getElementById("watchNowBtn").addEventListener("click", () => openWatchModal(mockAnimeList[0]));
+      document.getElementById("watchHeroBtn").addEventListener("click", () => openWatchModal(mockAnimeList[0]));
+      document.getElementById("ctaWatchBtn").addEventListener("click", () => openWatchModal(mockAnimeList[1]));
+
       document.getElementById("aiTitleBtn").addEventListener("click", async () => {
         const animeTitle = document.getElementById("animeTitle").value || "Anime";
         const epNum = document.getElementById("episodeNumber").value || "1";
@@ -1094,6 +1190,13 @@
         document.getElementById("suggestionsModal").style.display = "none";
       });
 
+      document.querySelector("[data-close-watch]").addEventListener("click", () => {
+        const modal = document.getElementById("watchModal");
+        const video = document.getElementById("watchVideo");
+        video.pause();
+        modal.style.display = "none";
+      });
+
       document.querySelector(".close-modal").addEventListener("keydown", (event) => {
         if (event.key === "Enter" || event.key === " ") {
           event.preventDefault();
@@ -1101,10 +1204,27 @@
         }
       });
 
-      window.addEventListener("click", (event) => {
-        const modal = document.getElementById("suggestionsModal");
-        if (event.target === modal) {
+      document.querySelector("[data-close-watch]").addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          const modal = document.getElementById("watchModal");
+          const video = document.getElementById("watchVideo");
+          video.pause();
           modal.style.display = "none";
+        }
+      });
+
+      window.addEventListener("click", (event) => {
+        const suggestionsModal = document.getElementById("suggestionsModal");
+        const watchModal = document.getElementById("watchModal");
+
+        if (event.target === suggestionsModal) {
+          suggestionsModal.style.display = "none";
+        }
+
+        if (event.target === watchModal) {
+          watchModal.style.display = "none";
+          document.getElementById("watchVideo").pause();
         }
       });
 
